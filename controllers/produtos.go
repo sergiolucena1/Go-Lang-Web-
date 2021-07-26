@@ -14,7 +14,7 @@ var temp = template.Must(template.ParseGlob("templates/*.html"))
 //template.ParseGlob (Passa o caminho dos templates)"nome da pata /* tudo que for html"
 
 //Parametros(quem vai escrever, quem vai exibir )
-func index(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, r *http.Request) {
 	todosOsProdutos := models.BuscaTodosOsProdutos()
 	//EXECUTA NO TEMPLATE
 	temp.ExecuteTemplate(w, "Index", todosOsProdutos)
