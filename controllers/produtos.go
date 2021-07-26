@@ -19,3 +19,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	//EXECUTA NO TEMPLATE
 	temp.ExecuteTemplate(w, "Index", todosOsProdutos)
 }
+
+func New(w http.ResponseWriter, r *http.Request){
+	temp.ExecuteTemplate(w, "New", nil)
+}
