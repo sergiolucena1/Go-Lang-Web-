@@ -56,3 +56,13 @@ func Insert (w http.ResponseWriter, r *http.Request){
 	http.Redirect(w, r, "/", 301)
 	return
 }
+
+//Deletando dados do banco
+func Delete(w http.ResponseWriter, r *http.Request){
+
+	//pegando a url atraves da requisiçãp (.Get = pegar )
+	idDoProduto := r.URL.Query().Get("id") // pegando o id da url
+
+	models.DeletaProduto(idDoProduto)
+	http.Redirect(w, r, "/", 301)
+}
