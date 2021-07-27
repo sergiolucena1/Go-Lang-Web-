@@ -13,6 +13,7 @@ type Produtos struct {
 	Quantidade int
 }
 
+//pegando os dados do banco
 func BuscaTodosOsProdutos() []Produtos {
 	db := db.ConectaComBancoDeDados() // Abrindo a conexao com o banco de dados
 
@@ -44,4 +45,21 @@ func BuscaTodosOsProdutos() []Produtos {
 	}
 	defer db.Close()
 	return produtos
+}
+
+// criando novos dados no banco
+func CriaNovoProduto(nome, descricao string, preco float64, quantidade int){
+	db := db.ConectaComBancoDeDados() // abrindo a conexao com o banco
+
+							//db.Prepare = preparando o banco de dados passando a query
+	insereDadosNoBanco, err := db.Prepare("insert into produtos(nome, descricao, preco, quantidade) values($1, $2, $3, $4)")
+	if err != nil {
+		panic(err.Error())
+	}
+// se nao tiver nenhum erro inserir os dados no banco(.Exec)
+
+	insereDadosNoBanco.Exec(nome, descricao, preco, quantidade)
+//depois de inserir os dados, eu fecho o banco de dados...
+	defer db.Close()
+
 }
