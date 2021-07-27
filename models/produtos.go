@@ -65,6 +65,7 @@ func CriaNovoProduto(nome, descricao string, preco float64, quantidade int){
 
 }
 
+//deleta os produtos do banco de dados
 func DeletaProduto (id string){
 	db := db.ConectaComBancoDeDados() // abrindo conexao com o banco
 
@@ -77,4 +78,36 @@ func DeletaProduto (id string){
 	deletarOProduto.Exec(id)
 
 	defer  db.Close() // fechando conexao com o banco
+}
+
+//Edita os produtos do banco de dados
+func EditaProduto(id string)Produtos {
+	db := db.ConectaComBancoDeDados()
+
+	produtoDoBanco, err := db.Query("select * from produtos where id=$1", id)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	produtoParaAtualizar := Produtos{}
+
+	for produtoDoBanco.Next(){ // next prepara o resultados de uma linha e depois buscamos o resultado no scan
+
+		var id, quantidade int
+		var nome, descricao string
+		var preco float64
+
+		//Scan = diz q a variavel que criei acime tem q ser exatamente igual a do banco (usando &)
+		err = produtoDoBanco.Scan(&id, &nome, &descricao, &preco, &quantidade)
+		if err != nil{
+			panic(err.Error())
+		}
+		//espelhando as variaveis com os dados do banco
+		produtoParaAtualizar.Nome = nome
+		produtoParaAtualizar.Descricao = descricao
+		produtoParaAtualizar.Preco = preco
+		produtoParaAtualizar.Quantidade = quantidade
+	}
+	defer db.Close() // fechando conexao com banco
+	return produtoParaAtualizar
 }
