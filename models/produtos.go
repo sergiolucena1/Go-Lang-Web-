@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"github.com/sergio/Go-Lang-Web-/db"
 )
 
@@ -15,7 +16,7 @@ type Produtos struct {
 
 //pegando os dados do banco
 func BuscaTodosOsProdutos() []Produtos {
-	db := db.ConectaComBancoDeDados() // Abrindo a conexao com o banco de dados
+	db:= db.ConectaComBancoDeDados() // Abrindo a conexao com o banco de dados
 
 	//selecionando do banco de dados
 	selectDeTodosOsProdutos, err := db.Query("select * from produtos")
@@ -69,7 +70,7 @@ func CriaNovoProduto(nome, descricao string, preco float64, quantidade int){
 func DeletaProduto (id string){
 	db := db.ConectaComBancoDeDados() // abrindo conexao com o banco
 
-	deletarOProduto, err := db.Prepare("delete from produtos where id=$1")
+	deletarOProduto, err := db.Prepare("delete  from produtos where id=$1")
 	if err != nil{
 		panic(err.Error())
 	}
@@ -103,6 +104,7 @@ func EditaProduto(id string)Produtos {
 			panic(err.Error())
 		}
 		//espelhando as variaveis com os dados do banco
+		produtoParaAtualizar.Id = id
 		produtoParaAtualizar.Nome = nome
 		produtoParaAtualizar.Descricao = descricao
 		produtoParaAtualizar.Preco = preco
@@ -110,4 +112,17 @@ func EditaProduto(id string)Produtos {
 	}
 	defer db.Close() // fechando conexao com banco
 	return produtoParaAtualizar
+}
+
+func AtualizaProduto(id int, nome, descricao string, preco float64, quantidade int)  {
+	db := db.ConectaComBancoDeDados()
+
+	fmt.Println(fmt.Sprintf("%s %s %s %s %s", id, nome,descricao,preco,quantidade))
+	AtualizaProduto, err := db.Prepare("update produtos set nome=$1, descricao=$2, preco=$3, quantidade=$4, where id=$5 ")
+	if err != nil{
+		panic(err.Error())
+	}
+	AtualizaProduto.Exec(nome, descricao, preco, quantidade, id)
+	defer db.Close()
+
 }

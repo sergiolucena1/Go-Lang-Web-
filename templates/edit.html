@@ -11,8 +11,9 @@
         <p class="lead">Insira os dados para atualizar ou editar</p>
       </div>
     </div>
-    {{/*                        inserir os dados*/}}
-    <form method="POST" action="insert">
+    {{/*                        atualizando os dados*/}}
+    <form method="POST" action="update">
+      <input type="hidden" name="id" value="{{.Id}}">
       <div class="row">
         <div class="col-sm-8">
           <div class="form-group">
