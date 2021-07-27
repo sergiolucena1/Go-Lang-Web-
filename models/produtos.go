@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"github.com/sergio/Go-Lang-Web-/db"
 )
 
@@ -19,7 +18,7 @@ func BuscaTodosOsProdutos() []Produtos {
 	db:= db.ConectaComBancoDeDados() // Abrindo a conexao com o banco de dados
 
 	//selecionando do banco de dados
-	selectDeTodosOsProdutos, err := db.Query("select * from produtos")
+	selectDeTodosOsProdutos, err := db.Query("select * from produtos order by id asc ")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -117,8 +116,7 @@ func EditaProduto(id string)Produtos {
 func AtualizaProduto(id int, nome, descricao string, preco float64, quantidade int)  {
 	db := db.ConectaComBancoDeDados()
 
-	fmt.Println(fmt.Sprintf("%s %s %s %s %s", id, nome,descricao,preco,quantidade))
-	AtualizaProduto, err := db.Prepare("update produtos set nome=$1, descricao=$2, preco=$3, quantidade=$4, where id=$5 ")
+	AtualizaProduto, err := db.Prepare("update produtos set nome=$1, descricao=$2, preco=$3, quantidade=$4 where id=$5 ")
 	if err != nil{
 		panic(err.Error())
 	}
