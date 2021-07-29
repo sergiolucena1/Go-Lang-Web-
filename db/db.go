@@ -8,7 +8,7 @@ import (
 
 //conectando com banco de dados
 func ConectaComBancoDeDados() *sql.DB {
-	conexao := "user=postgres dbname=sergio_loja password=Sergim25. host=localhost sslmode=disable" // as informações que tem q ser passadas
+	conexao := "user=postgres dbname=loja password=12345 host=localhost sslmode=disable" // as informações que tem q ser passadas
 	db, err := sql.Open("postgres", conexao)                                                        //abrindo uma conexao com o banco de dados
 
 	//verificando se tem algum erro
